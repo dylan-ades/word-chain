@@ -96,12 +96,22 @@ const startingWords = [
         "zit", "zoo"
 ];
 
-let wordData, userInput, userInput2, firstWord;
+const consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'];
+const vowels = ['a', 'e', 'i', 'o', 'u']
+
+
+let wordData, prevWordData, currentWord, prevWord, userInput, userInput2, firstWord, whatCondition;
+let turnCount = 1;
 const apiKey = "43042ed6-27e0-4566-b859-05ce09dad7ed"
+
+let twoToFourArray = [2, 3, 4]
+twoToFourArray.sort(randomSort)
+console.log(twoToFourArray);
 
 const $word = $('#word');
 const $def = $('#def');
 const $input = $('.text1');
+let condition = document.getElementById('condition');
 // const $input2 = $('.text2');
 
 $("button").hide()
@@ -110,15 +120,18 @@ startingWord();
 $('form').on('submit', handleGetData);
 
 function startingWord() {
-    firstWord = startingWords[getRandomInt()]
+    firstWord = getRandomElement(startingWords, 1)
+    prevWord = firstWord;
     $word.text(firstLetterUppercase(firstWord))
 }
+
+turnCountChecker();
 
 function handleGetData(event) {
     event.preventDefault();
        // calling preventDefault() on a 'submit' event will prevent a page refresh  
     userInput = $input.val();
-    userInputRef = document.querySelector('input')
+    let userInputRef = document.querySelector('input')
       // getting the user input
     $.ajax({
         url:`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${userInput}?key=${apiKey}`
@@ -127,18 +140,46 @@ function handleGetData(event) {
         (data) => {
             console.log(data);
             wordData = data;
+            currentWord = removeAfterColon(wordData[0].meta.id)
+            if (turnDecider()) {
             render();
+            prevWordData = wordData
+            prevWord = removeAfterColon(prevWordData[0].meta.id)
             userInputRef.value = ""
+            turnCount++;
+            if (turnCount === 4) {
+              turnCount = 1;
+              twoToFourArray = [2, 3, 4]
+              twoToFourArray.sort(randomSort);
+            }
+            turnCountChecker();
+          } else if (currentWord === prevWord) {
+            wrong(3)
+          } else {
+            wrong(1)
+          }
         },
         (error) => {
+            wrong(2)
             console.log('bad request', error);
+            
         }
     );    
 }
 
-function getRandomInt() {
-    return Math.floor(Math.random() * 397);
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
   }
+
+function getRandomElement(arr, e) {
+  const randomI = getRandomInt(0, arr.length-1);
+  console.log(`random int is ` + randomI);
+  if (e === 1) {
+  return arr[randomI];
+  } else {
+    return randomI;
+  }
+ }
 
 function firstLetterUppercase(word) {
     const firstLetter = word.charAt(0)
@@ -158,7 +199,7 @@ function removeAfterColon(str) {
   }
   
   function countdown() {
-    let seconds = 31;
+    let seconds = 121;
     const countdownEl = document.getElementById("timer");
   
     const intervalId = setInterval(() => {
@@ -175,11 +216,207 @@ function removeAfterColon(str) {
   countdown();
 
 function render() {
-    $word.text(firstLetterUppercase(removeAfterColon(wordData[0].meta.id)));
+    $word.text(firstLetterUppercase(currentWord));
     $def.text(wordData[0].shortdef[0]);
  }
- console.log(startingWords.length)
+//  console.log(startingWords.length)
 
  function resetGame() {
   location.reload();
+}
+
+function turnDecider() {
+  if (turnCount === 1) {
+    return checkConditions(1)
+  } else {
+    return checkConditions(whatCondition)
+  }
+}
+
+// function randomizeArrayContents(arr) {
+//   console.log(`entered`)
+//   let newArr = [];
+//   for (let i = 0; i < 3; i++) {
+//     let splicedEl = arr.splice(arr[getRandomElement(arr, 2)], 1)[0]
+//     console.log(splicedEl + ` was spliced`)
+//     newArr.push(splicedEl)
+//   }
+//   console.log(`this is newArr ` + newArr);
+//   return newArr;
+// }
+function randomSort(a, b) {
+  return 0.5 - Math.random();
+}
+
+function checkConditions(e) {
+  if (e === 1) {
+    return checkWordLonger()
+  } else if (e === 2) {
+    return checkMoreConsonants()
+  } else if (e === 3) {
+    return checkMoreVowels() 
+  } else if (e === 4) {
+    return moreMostFrequentLetter()
+  }
+}
+
+// function actualWord(word) {
+//   return removeAfterColon(word[0].meta.id)
+// }
+
+function howMany(word, e) {
+  let letterCount = 0;
+  if (e === 1) { //consonants
+    for(let i = 0; i < word.length; i++) {
+      if(consonants.includes(word.charAt(i).toLowerCase())) {
+        letterCount++;
+      }
+    }
+  }
+  if (e === 2) { //vowels
+    for(let i = 0; i < word.length; i++) {
+      if(vowels.includes(word.charAt(i).toLowerCase())) {
+        letterCount++;
+      }
+    }
+  }
+  return letterCount
+}
+
+function checkWordLonger() {
+  console.log(currentWord)
+  console.log(prevWord)
+  if ((currentWord.length > prevWord.length) &&
+ (currentWord.charAt(0).toLowerCase() === prevWord.charAt(0).toLowerCase())) {
+  console.log(`returned true`)
+  return true;
+ } else {
+  console.log(`returned false`)
+  return false;
+ }
+}
+
+function checkMoreConsonants() {
+  console.log(currentWord)
+  console.log(prevWord)
+  if (howMany(currentWord, 1) > 
+  howMany(prevWord, 1) &&
+ currentWord.charAt(0).toLowerCase() === prevWord.charAt(0).toLowerCase()) {
+  console.log(`returned true`)
+  return true;
+ } else {
+  console.log(`returned false consonants`)
+  return false;
+ }
+}
+
+function checkMoreVowels() {
+  console.log(currentWord)
+  console.log(prevWord)
+  console.log(howMany(currentWord, 2))
+  console.log(howMany(prevWord, 2))
+  if (howMany(currentWord, 2) > 
+  howMany(prevWord, 2) &&
+ currentWord.charAt(0).toLowerCase() === prevWord.charAt(0).toLowerCase()) {
+  console.log(`returned true`)
+  return true;
+ } else {
+  console.log(`returned false vowels`)
+  return false;
+ }
+}
+
+  function mostFrequentLetter(word) {
+    const letterFrequency = {};
+    let letterData = {};
+
+    for (let i = 0; i < word.length; i++) {
+      const letter = word[i].toLowerCase();
+      if (letterFrequency[letter]) {
+        letterFrequency[letter]++;
+      }
+      else {
+        letterFrequency[letter] = 1;
+      }
+    }
+
+    let mostFrequentLetter;
+    let highestFrequency = 0;
+    for (const letter in letterFrequency) {
+      if (letterFrequency[letter] > highestFrequency) {
+        mostFrequentLetter = letter;
+        highestFrequency = letterFrequency[letter];
+      }
+    }
+
+    letterData = {
+      lettersAndFrequency: letterFrequency,
+      letter: mostFrequentLetter,
+      letterFrequency: highestFrequency
+    }
+
+    return letterData;
+  }
+  
+
+function moreMostFrequentLetter() {
+  // console.log(currentWord)
+  // console.log(prevWord)
+  // console.log(mostFrequentLetter(currentWord))
+  // console.log(mostFrequentLetter(prevWord))
+  const letterToBeat = mostFrequentLetter(prevWord).letter;
+  console.log(`letter to beat is ` + letterToBeat)
+
+  if (mostFrequentLetter(currentWord).lettersAndFrequency[letterToBeat] > mostFrequentLetter(prevWord).letterFrequency) {
+    console.log(`returned true`)
+    return true;
+  } else {
+    console.log(`returned false most frequent`)
+    return false;
+  }
+}
+function turnFourOrNot() {
+  if (mostFrequentLetter(currentWord).letterFrequency > 1) {
+    console.log(`returned true turnfourornot`)
+    return true;
+  } else {
+    return false;
+  }
+}
+function turnCountChecker() {
+  const randomNum = getRandomInt(2, 3);
+  if (turnCount === 1) { //||
+    // (whatCondition === 4 && !turnFourOrNot && randomNum === 1)) {
+    // whatCondition = 1;
+    condition.innerHTML = `Give me a word that starts with the same letter but is longer`
+    console.log(`It is scenario 1`)
+  } else {
+      console.log(twoToFourArray)
+      whatCondition = twoToFourArray.pop()
+      if (whatCondition === 2 || 
+        (whatCondition === 4 && !turnFourOrNot() && randomNum === 2)) {
+        whatCondition = 2;
+        condition.innerHTML = `Give me a word that starts with the same letter but has more consonants`
+        console.log(`It is scenario 2`)
+    } else if (whatCondition === 3 ||
+        (whatCondition === 4 && !turnFourOrNot() && randomNum === 3)) {
+        whatCondition = 3;
+        condition.innerHTML = `Give me a word that starts with the same letter but has more vowels`
+        console.log(`It is scenario 3`)
+    } else if (whatCondition === 4 && turnFourOrNot()) {
+        condition.innerHTML = `Give me a word that has more ${(mostFrequentLetter(currentWord).letter).toUpperCase()}'s in it`
+        console.log(`It is scenario 4`)
+    }
+  }
+}
+
+
+function wrong(e) {
+  if (e === 1) {
+    console.log("Doesn't fulfill the conditions")
+  } else if (e === 2) {
+    console.log("Not a word. Did you spell it right?")
+  } else {
+    console.log("Same word")
+  }
 }
