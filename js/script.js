@@ -283,14 +283,6 @@ function render() {
 //   location.reload();
 // }
 
-function turnDecider() {
-  if (turnCount === 1) {
-    return checkConditions(1)
-  } else {
-    return checkConditions(whatCondition)
-  }
-}
-
 // function randomizeArrayContents(arr) {
 //   console.log(`entered`)
 //   let newArr = [];
@@ -304,6 +296,14 @@ function turnDecider() {
 // }
 function randomSort(a, b) {
   return 0.5 - Math.random();
+}
+
+function turnDecider() {
+  if (turnCount === 1) {
+    return checkConditions(1)
+  } else {
+    return checkConditions(whatCondition)
+  }
 }
 
 function checkConditions(e) {
