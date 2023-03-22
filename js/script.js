@@ -100,23 +100,25 @@ const consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 
 const vowels = ['a', 'e', 'i', 'o', 'u']
 
 
-let wordData, prevWordData, currentWord, prevWord, userInput, userInput2, firstWord, whatCondition;
-let turnCount = 1;
+let wordData, prevWordData, currentWord, prevWord, userInput, userInput2, firstWord, whatCondition, countDownOver, turnCount, multiplier;
 const apiKey = "43042ed6-27e0-4566-b859-05ce09dad7ed"
 
-let twoToFourArray = [2, 3, 4]
-twoToFourArray.sort(randomSort)
-console.log(twoToFourArray);
+let twoToFourArray;
+let score, highScore;
 
 const $word = $('#word');
 const $def = $('#def');
+const $defPair = $('.defPair')
 const $input = $('.text1');
+const $score = $('#score')
+const $highScore = $('#highScore')
 let condition = document.getElementById('condition');
 // const $input2 = $('.text2');
 
-$("button").hide()
+//START-UP
+startingConditions(1);
 
-startingWord();
+
 $('form').on('submit', handleGetData);
 
 function startingWord() {
@@ -125,19 +127,57 @@ function startingWord() {
     $word.text(firstLetterUppercase(firstWord))
 }
 
-turnCountChecker();
+function startingConditions(e) {
+  //1 = On startup
+  //2 = Just passed
+  //3 = New Game, keep high score on screen
+  clearUserInput();
+  $defPair.hide()
+  $('#pass').show();
+  startingWord();
+  twoToFourArray = [2, 3, 4]
+  twoToFourArray.sort(randomSort)
+  console.log(twoToFourArray);
+  multiplier = 1;
+  turnCount = 1;
+  turnCountChecker();
+  if(e === 1) {
+    $("#reset").hide()
+    countdown();
+    score = 0;
+    highScore = 0;
+  }
+  if(e === 2) {
+    console.log(`Just Passed`)
+  }
+  if(e === 3) {
+    $("#reset").hide()
+    countdown();
+    console.log(`reset 3 has been entered`)
+    if(score > highScore) {
+      highScore = score;
+    }
+    score = 0;
+  }
+  updateScore();
+}
+
+function clearUserInput() {
+    let userInputRef = document.querySelector('input')
+    userInputRef.value = ""
+}
 
 function handleGetData(event) {
     event.preventDefault();
        // calling preventDefault() on a 'submit' event will prevent a page refresh  
     userInput = $input.val();
-    let userInputRef = document.querySelector('input')
       // getting the user input
     $.ajax({
         url:`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${userInput}?key=${apiKey}`
 
       }).then(
         (data) => {
+            if(!countDownOver) {
             console.log(data);
             wordData = data;
             currentWord = removeAfterColon(wordData[0].meta.id)
@@ -145,8 +185,9 @@ function handleGetData(event) {
             render();
             prevWordData = wordData
             prevWord = removeAfterColon(prevWordData[0].meta.id)
-            userInputRef.value = ""
+            clearUserInput();
             turnCount++;
+            multiplier+=1;
             if (turnCount === 4) {
               turnCount = 1;
               twoToFourArray = [2, 3, 4]
@@ -158,6 +199,7 @@ function handleGetData(event) {
           } else {
             wrong(1)
           }
+        }
         },
         (error) => {
             wrong(2)
@@ -199,31 +241,47 @@ function removeAfterColon(str) {
   }
   
   function countdown() {
+    countDownOver = false;
     let seconds = 121;
     const countdownEl = document.getElementById("timer");
   
     const intervalId = setInterval(() => {
       if (seconds === 0) {
+        countDownOver = true;
+        console.log(countDownOver)
         clearInterval(intervalId);
         countdownEl.innerHTML = "Time's up!";
-        $("button").show();
+        $('#pass').hide()
+        $("#reset").show();
       } else {
         seconds--;
         countdownEl.innerHTML = `${seconds} seconds`;
       }
     }, 1000);
   }
-  countdown();
+
 
 function render() {
     $word.text(firstLetterUppercase(currentWord));
+    $defPair.show()
     $def.text(wordData[0].shortdef[0]);
+    $score.text(scoreAdder())
+ }
+
+ function scoreAdder() {
+    score+=100*multiplier;
+    return score;
+ }
+
+ function updateScore() {
+  $score.text(score)
+  $highScore.text(highScore)
  }
 //  console.log(startingWords.length)
 
- function resetGame() {
-  location.reload();
-}
+//  function resetGame() {
+//   location.reload();
+// }
 
 function turnDecider() {
   if (turnCount === 1) {

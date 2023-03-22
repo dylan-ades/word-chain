@@ -11,19 +11,19 @@
 
 </head>
 
-<div class="container">
+
 <body>
-    
+  <div class="container">
 <main>
   <h1>Word Chain</h1>
   <h2 id="timer"></h4>
   <h3>Word</h3>
   <p id="word"></p>
-  <h3>Definition</h3>
-  <p id="def"></p>
+  <h3 class="defPair">Definition</h3>
+  <p class="defPair" id="def"></p>
   <h3>Condition</h3>
   <p id="condition"></p>
-  <button id="reset" onclick="resetGame()">New Game</button>
+  <button id="reset" onclick="startingConditions(3)">New Game</button>
   <!-- <h3>Temperature</h3>
   <p id="temp"></p>
   <h3>Feels Like</h3>
@@ -38,9 +38,16 @@
   <!-- <input class="text2" type="text" placeholder="Longitude"/> -->
   <input type="submit" value="Enter" />
 </form>
+  <button id="pass" onclick="startingConditions(2)">Pass</button>
 </main>
-
-</body>
 </div>
+<div id="scoreBox">
+<h4>Score:</h4>
+<p class = 'scores' id="score"></p>
+<h4>High Score:</h4>
+<p class = 'scores' id="highScore"></p>
+</div>
+</body>
+
 
 </html>
