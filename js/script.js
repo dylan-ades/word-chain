@@ -430,7 +430,7 @@ function turnCountChecker() {
   if (turnCount === 1) { //||
     // (whatCondition === 4 && !turnFourOrNot && randomNum === 1)) {
     // whatCondition = 1;
-    condition.innerHTML = `Give me a word that starts with the same letter but is longer`
+    condition.innerHTML = `Give me a word that <span> starts with the same letter </span> but is <span> longer </span>`
     console.log(`It is scenario 1`)
   } else {
       console.log(twoToFourArray)
@@ -438,15 +438,15 @@ function turnCountChecker() {
       if (whatCondition === 2 || 
         (whatCondition === 4 && !turnFourOrNot() && randomNum === 2)) {
         whatCondition = 2;
-        condition.innerHTML = `Give me a word that starts with the same letter but has more consonants`
+        condition.innerHTML = `Give me a word that <span> starts with the same letter </span> but <span> has more consonants </span>`
         console.log(`It is scenario 2`)
     } else if (whatCondition === 3 ||
         (whatCondition === 4 && !turnFourOrNot() && randomNum === 3)) {
         whatCondition = 3;
-        condition.innerHTML = `Give me a word that starts with the same letter but has more vowels`
+        condition.innerHTML = `Give me a word that <span> starts with the same letter </span> but <span> has more vowels </span>`
         console.log(`It is scenario 3`)
     } else if (whatCondition === 4 && turnFourOrNot()) {
-        condition.innerHTML = `Give me a word that has more ${(mostFrequentLetter(currentWord).letter).toUpperCase()}'s in it`
+        condition.innerHTML = `Give me a word that <span> has more ${(mostFrequentLetter(currentWord).letter).toUpperCase()}'s </span> in it`
         console.log(`It is scenario 4`)
     }
   }
