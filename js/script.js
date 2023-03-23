@@ -108,9 +108,11 @@ let score, highScore;
 
 const $word = $('#word');
 const $def = $('#def');
+const $defTitle = $('#defTitle');
 const $defPair = $('.defPair')
 const $input = $('.text1');
 const $score = $('#score')
+const $multiplier = $('#multiplier')
 const $highScore = $('#highScore')
 let condition = document.getElementById('condition');
 // const $input2 = $('.text2');
@@ -141,16 +143,16 @@ function startingConditions(e) {
   multiplier = 1;
   turnCount = 1;
   turnCountChecker();
-  if(e === 1) {
+  if(e === 1) { //1 = On startup
     $("#reset").hide()
     countdown();
     score = 0;
     highScore = 0;
   }
-  if(e === 2) {
+  if(e === 2) { //2 = Just passed
     console.log(`Just Passed`)
   }
-  if(e === 3) {
+  if(e === 3) { //3 = New Game, keep high score on screen
     $("#reset").hide()
     countdown();
     console.log(`reset 3 has been entered`)
@@ -182,12 +184,12 @@ function handleGetData(event) {
             wordData = data;
             currentWord = removeAfterColon(wordData[0].meta.id)
             if (turnDecider()) {
+            multiplier+=1;
             render();
             prevWordData = wordData
             prevWord = removeAfterColon(prevWordData[0].meta.id)
             clearUserInput();
             turnCount++;
-            multiplier+=1;
             if (turnCount === 4) {
               turnCount = 1;
               twoToFourArray = [2, 3, 4]
@@ -264,8 +266,11 @@ function removeAfterColon(str) {
 function render() {
     $word.text(firstLetterUppercase(currentWord));
     $defPair.show()
+    $defPair.css("color", "black")
     $def.text(wordData[0].shortdef[0]);
+    $defTitle.text("Definition")
     $score.text(scoreAdder())
+    $multiplier.text(`${multiplier}x`)
  }
 
  function scoreAdder() {
@@ -276,6 +281,8 @@ function render() {
  function updateScore() {
   $score.text(score)
   $highScore.text(highScore)
+  $multiplier.text(`${multiplier}x`)
+
  }
 
 function randomSort(a, b) {
@@ -454,11 +461,16 @@ function turnCountChecker() {
 
 
 function wrong(e) {
+  $defPair.show()
+  let reason = ""
+  $defTitle.text(`Wrong:`)
+  $defPair.css("color", "red");
   if (e === 1) {
-    console.log("Doesn't fulfill the conditions")
+    reason = "Doesn't fulfill the conditions"
   } else if (e === 2) {
-    console.log("Not a word. Did you spell it right?")
+    reason = "Not a word. Did you spell it right?"
   } else {
-    console.log("Same word")
+    reason = "Same word!"
   }
+  $def.text(reason)
 }
