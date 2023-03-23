@@ -277,23 +277,7 @@ function render() {
   $score.text(score)
   $highScore.text(highScore)
  }
-//  console.log(startingWords.length)
 
-//  function resetGame() {
-//   location.reload();
-// }
-
-// function randomizeArrayContents(arr) {
-//   console.log(`entered`)
-//   let newArr = [];
-//   for (let i = 0; i < 3; i++) {
-//     let splicedEl = arr.splice(arr[getRandomElement(arr, 2)], 1)[0]
-//     console.log(splicedEl + ` was spliced`)
-//     newArr.push(splicedEl)
-//   }
-//   console.log(`this is newArr ` + newArr);
-//   return newArr;
-// }
 function randomSort(a, b) {
   return 0.5 - Math.random();
 }
