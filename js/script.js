@@ -112,6 +112,7 @@ const $defTitle = $('#defTitle');
 const $defPair = $('.defPair')
 const $input = $('.text1');
 const $score = $('#score')
+const $scoreAdder = $('#scoreAdder');
 const $multiplier = $('#multiplier')
 const $highScore = $('#highScore')
 let condition = document.getElementById('condition');
@@ -151,6 +152,7 @@ function startingConditions(e) {
   }
   if(e === 2) { //2 = Just passed
     console.log(`Just Passed`)
+    $scoreAdder.fadeOut()
   }
   if(e === 3) { //3 = New Game, keep high score on screen
     $("#reset").hide()
@@ -184,7 +186,6 @@ function handleGetData(event) {
             wordData = data;
             currentWord = removeAfterColon(wordData[0].meta.id)
             if (turnDecider()) {
-            multiplier+=1;
             render();
             prevWordData = wordData
             prevWord = removeAfterColon(prevWordData[0].meta.id)
@@ -269,12 +270,18 @@ function render() {
     $defPair.css("color", "black")
     $def.text(wordData[0].shortdef[0]);
     $defTitle.text("Definition")
+    $scoreAdder.fadeIn();
     $score.text(scoreAdder())
     $multiplier.text(`${multiplier}x`)
  }
 
  function scoreAdder() {
-    score+=100*multiplier;
+    let scoreAdded = 100*multiplier
+    $scoreAdder.fadeIn()
+    $scoreAdder.text(`+${scoreAdded}`)
+    $scoreAdder.fadeOut()
+    score+=scoreAdded;
+    multiplier++;
     return score;
  }
 
