@@ -19,10 +19,13 @@ html, body {
     align-items: center;
     height: 100%;
     text-align: center;
-    flex-grow: 1;
+    flex-grow: 3;
+    margin-right: 10vh;
   }
 h1 {
-    margin-top: -10vh;
+    position: fixed;
+    top: 0;
+    left: 44%;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color:red;
 }
@@ -49,13 +52,20 @@ input {
     /* display: inline; */
     margin-top: -80vh;
     /* margin-right: 20vh; */
-    width: 20v;
+    /* width: 20v; */
     margin-left: auto;
     /* text-align: right; */
     font-family: "Roboto", sans-serif;
     flex-grow: 1;
     color:cadetblue;
 }
+.multiplier {
+  margin-top: -80vh;
+  flex-grow: 1;
+  font-family: "Roboto", sans-serif;
+  color:cadetblue;
+}
+
 #highScoreBox {
   margin-top: -80vh;
   /* display: inline; */
@@ -64,7 +74,7 @@ input {
   margin-left: auto;
   /* text-align: right; */
   font-family: "Roboto", sans-serif;
-  flex-grow: 1;
+  flex-grow: 3;
   color:cadetblue;
 }
 
@@ -72,3 +82,7 @@ span {
   color: blue;
   font-weight: bold;
 }
+
+/* #word {
+  color: blue;
+} */
