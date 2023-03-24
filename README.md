@@ -7,8 +7,9 @@ Try to follow up a word with another word that meets the set conditions.Chain to
 - CSS
 
 # Screenshots
-<img width="771" alt="Screen Shot 2023-03-24 at 11 57 11 AM" src="https://user-images.githubusercontent.com/126536309/227578286-acd27e4d-5a41-43da-a243-92a08a6491c5.png">
-<img width="508" alt="Screen Shot 2023-03-24 at 11 57 55 AM" src="https://user-images.githubusercontent.com/126536309/227578309-ca3db928-3bfe-4335-97c6-657680b1d359.png">
+<img width="771" alt="Screen Shot 2023-03-24 at 12 23 46 PM" src="https://user-images.githubusercontent.com/126536309/227584076-a66adfb6-ae58-4ea3-84b6-4212f96adfcf.png">
+<img width="529" alt="Screen Shot 2023-03-24 at 12 24 00 PM" src="https://user-images.githubusercontent.com/126536309/227584087-ed4ea239-9340-42f4-a692-85cec4e6f86b.png">
+
 
 
 # Getting Started
