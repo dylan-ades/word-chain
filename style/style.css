@@ -37,7 +37,8 @@ h2 {
 p {
     max-width: 45vh;
     word-wrap: break-word;
-    margin-left: 5vh
+    margin: 0 auto;
+    margin-bottom: 2vh;
 }
 
 input {
@@ -83,6 +84,15 @@ span {
   font-weight: bold;
 }
 
+#timer {
+  color: black;
+  -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: blue;
+    font-family: 'Courier New', Courier, monospace;
+}
+
 /* #word {
-  color: blue;
+  color: cadetblue;
+  -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
 } */
