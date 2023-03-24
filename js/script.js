@@ -145,21 +145,25 @@ function startingConditions(e) {
   turnCount = 1;
   turnCountChecker();
   if(e === 1) { //1 = On startup
+    countDownOver = false;
     $("#reset").hide()
-    countdown();
+    countDown();
     score = 0;
     highScore = 0;
   }
   if(e === 2) { //2 = Just passed
     console.log(`Just Passed`)
-    $scoreAdder.fadeOut()
+    // $scoreAdder.fadeOut()
   }
   if(e === 3) { //3 = New Game, keep high score on screen
+    countDownOver = false;
     $("#reset").hide()
-    countdown();
+    $("#endGame").show()
+    countDown();
     console.log(`reset 3 has been entered`)
     if(score > highScore) {
       highScore = score;
+      // localStorage.setItem(highScore, highScore)
     }
     score = 0;
   }
@@ -243,22 +247,23 @@ function removeAfterColon(str) {
     }
   }
   
-  function countdown() {
-    countDownOver = false;
+  function countDown() {
+    // countDownOver = false;
     let seconds = 121;
-    const countdownEl = document.getElementById("timer");
+    const countDownEl = document.getElementById("timer");
   
     const intervalId = setInterval(() => {
-      if (seconds === 0) {
+      if (seconds === 0 || countDownOver) {
         countDownOver = true;
         console.log(countDownOver)
         clearInterval(intervalId);
-        countdownEl.innerHTML = "Time's up!";
+        countDownEl.innerHTML = "Time's up!";
         $('#pass').hide()
-        $("#reset").show();
+        $('#endGame').hide()
+        $("#reset").show()
       } else {
         seconds--;
-        countdownEl.innerHTML = `${seconds} seconds`;
+        countDownEl.innerHTML = `${seconds} seconds`;
       }
     }, 1000);
   }
@@ -473,11 +478,17 @@ function wrong(e) {
   $defTitle.text(`Wrong:`)
   $defPair.css("color", "red");
   if (e === 1) {
-    reason = "Doesn't fulfill the conditions"
+    reason = `"${firstLetterUppercase(currentWord)}" doesn't fulfill the conditions`
   } else if (e === 2) {
     reason = "Not a word. Did you spell it right?"
   } else {
     reason = "Same word!"
   }
   $def.text(reason)
+}
+
+function endGame() {
+  countDownOver = true;
+  countDown();
+  
 }
