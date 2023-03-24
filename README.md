@@ -11,10 +11,9 @@ Try to follow up a word with another word that meets the set conditions.Chain to
 <img width="771" alt="Screen Shot 2023-03-23 at 2 27 01 PM" src="https://user-images.githubusercontent.com/126536309/227312315-17456d1e-bffe-44ec-a672-bfd0c518a9a2.png">
 
 # Getting Started
-Click the link to try out Word Chain! (https://dylan-ades.github.io/word-chain/)
+Click [here](https://dylan-ades.github.io/word-chain/) to try out Word Chain.
 
 # Future Enchancements
-- Improve the game's aesthetics
 - Add a title screen with multiple timer options
 - Save high score to browser's local storage
-
+- Get it working on phones
