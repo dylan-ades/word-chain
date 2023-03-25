@@ -115,6 +115,7 @@ const $score = $('#score')
 const $scoreAdder = $('#scoreAdder');
 const $multiplier = $('#multiplier')
 const $highScore = $('#highScore')
+const $pass = $('#pass')
 let condition = document.getElementById('condition');
 // const $input2 = $('.text2');
 
@@ -136,7 +137,8 @@ function startingConditions(e) {
   //3 = New Game, keep high score on screen
   clearUserInput();
   $defPair.hide()
-  $('#pass').show();
+  $pass.hide();
+  // $pass.show();
   startingWord();
   twoToFourArray = [2, 3, 4]
   twoToFourArray.sort(randomSort)
@@ -258,7 +260,7 @@ function removeAfterColon(str) {
         console.log(countDownOver)
         clearInterval(intervalId);
         countDownEl.innerHTML = "Time's up!";
-        $('#pass').hide()
+        $pass.hide()
         $('#endGame').hide()
         $("#reset").show()
       } else {
@@ -270,6 +272,7 @@ function removeAfterColon(str) {
 
 
 function render() {
+    $pass.show();
     $word.text(firstLetterUppercase(currentWord));
     $defPair.show()
     $defPair.css("color", "black")
@@ -421,10 +424,6 @@ function checkMoreVowels() {
   
 
 function moreMostFrequentLetter() {
-  // console.log(currentWord)
-  // console.log(prevWord)
-  // console.log(mostFrequentLetter(currentWord))
-  // console.log(mostFrequentLetter(prevWord))
   const letterToBeat = mostFrequentLetter(prevWord).letter;
   console.log(`letter to beat is ` + letterToBeat)
 
