@@ -1,5 +1,5 @@
 # Word Chain
-Try to follow up a word with another word that meets the set conditions.Chain together as many words as possible for the highest score! But be careful, variations on the same word won't count.
+Try to follow up a word with another word that meets the set conditions. Chain together as many words as possible for the highest score! But be careful, variations on the same word won't count.
 
 # Technologies Used
 - JavaScript (jQuery)
